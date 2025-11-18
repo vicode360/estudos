@@ -16,7 +16,7 @@ void menu () {
 void cadastro () {
     FILE *fp;
     char nm[30];
-    int a, b, c, d, e, f, num;
+    int a, b, c, d, e, f, num = 0;
     fp = fopen("cadastros.txt", "a");
     if (fp == NULL) {
         printf("Erro ao abrir/criar o arquivo.");
@@ -47,7 +47,7 @@ void cadastro () {
         fprintf(fp, "%s %d %d %d %d\n", nm, c, d, e, f);
     }
     fclose(fp);
-    printf("\nArquivo 'cadastros.txt' criado com sucesso!\n");
+    printf("\nDados salvos com sucesso!\n");
 }
 void buscar() {
     FILE *fp;
@@ -130,6 +130,7 @@ void listar () {
         Sleep(1500);
     }while(loop != 0);
 }
+
 
 
 
