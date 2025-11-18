@@ -13,12 +13,24 @@ void menu () {
     printf("|[4] Sair                |\n");
     printf("|------------------------|\n\n");
     }
-void cadastro (int a, int b, char nm[30], int c, int d, int e, int f, FILE *fp) {
+void cadastro () {
+    FILE *fp;
+    char nm[30];
+    int a, b, c, d, e, f, num;
     fp = fopen("cadastros.txt", "a");
     if (fp == NULL) {
         printf("Erro ao abrir/criar o arquivo.");
         exit(1);
     }
+        do{
+            printf("Digite quantas pessoas deseja cadastrar: ");
+            if((scanf("%d", &b)) != 1){
+                printf("Por favor digite um numero.\n");
+                fseek(stdin,0,SEEK_END);
+            }else{
+                num = 1;
+            }
+        }while(num == 0);
     for (a = 1; a <= b; a++) {
         printf("Pessoa %d\n\n", a);
         printf("Nome(sem espacos): \n");
@@ -35,7 +47,7 @@ void cadastro (int a, int b, char nm[30], int c, int d, int e, int f, FILE *fp) 
         fprintf(fp, "%s %d %d %d %d\n", nm, c, d, e, f);
     }
     fclose(fp);
-    printf("\nArquivo 'cadastros.txt' criado com sucesso!");
+    printf("\nArquivo 'cadastros.txt' criado com sucesso!\n");
 }
 void buscar() {
     FILE *fp;
@@ -93,24 +105,13 @@ void listar () {
     }
 }
     int main() {
-    FILE *fptr;
-    char nome[30];
-    int idade, dia, mes, ano, qtd, num = 0, escolha, i = 1;
+    int escolha;
     int loop = 1;
     do{ menu();
         scanf("%d", &escolha);
         switch (escolha) {
             case 1:
-                do{
-                    printf("Digite quantas pessoas deseja cadastrar: ");
-                    if((scanf("%d", &qtd)) != 1){
-                        printf("Por favor digite um numero.\n");
-                        fseek(stdin,0,SEEK_END);
-                    }else{
-                        num = 1;
-                    }
-                }while(num == 0);
-                cadastro(i, qtd, nome, idade, dia, mes, ano, fptr);
+                cadastro();
                 break;
             case 2:
                 buscar();
@@ -129,5 +130,6 @@ void listar () {
         Sleep(1500);
     }while(loop != 0);
 }
+
 
 
