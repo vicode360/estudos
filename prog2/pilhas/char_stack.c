@@ -39,4 +39,10 @@ void pop(Stack* S) {
     S->n--;
 }
 
+void prints(Stack* S) {
+    for (int i = S->n-1; i >= 0; i--) {
+         printf("\n %c <- elemento %d", S->data[i], i);
+    }
+}
+
 

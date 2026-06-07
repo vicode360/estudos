@@ -18,6 +18,8 @@ void push(Stack* S, char x);
 
 void pop(Stack* S);
 
+void prints(Stack* S);
+
 
 
 
