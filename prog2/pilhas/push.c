@@ -20,7 +20,7 @@ int main() {
         }else {
             for (int i = 0; i <strlen(expressao); i++) {
                 char c = expressao[i];
-                assert(c == '+' || c x`x== '-' || c == '*' || c == '/');
+                assert(c == '+' || c == '-' || c == '*' || c == '/');
                 assert(n>=2);
                 float b = stack[--n];
                 float a = stack[--n];
