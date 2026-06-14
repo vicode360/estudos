@@ -16,7 +16,6 @@ static void printnodes(Node* head) {
         printf("%c ", p->data);
 }
 
-
 // criar um no dinamicamente
 
 static Node* new_node(char c) {
@@ -43,9 +42,27 @@ static Node* pop_front(Node* head) {
     Node* new_head = head->next;
     free(head);
     return new_head;
-
 }
 
+
+// buscar no
+static Node* find_node(Node* head, char c) {
+    for (Node* n = head; n != NULL; n = n->next)
+        if (c == n->data)
+            return n;
+    return NULL;
+}
+
+// inserir apos elemento
+
+static void push_after(Node* node, char c) {
+    if (node != NULL) {
+        Node* n = new_node(c);
+        n->next = node->next;
+        node->next = n;
+    }
+
+}
 
 
 
