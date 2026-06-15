@@ -7,7 +7,7 @@
 
 struct Stack {
     char data[MAXSIZE];
-    int n;
+    char n;
 };
 
 Stack* init_stack() {
