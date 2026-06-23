@@ -49,7 +49,7 @@ void f(int a, int b) {
                 printf("beterraba %d\n", b);
                 top->pos++;
                 top = push(a, b-top->x, top);
-            }else if ( top->pos == 3) {
+            }else if ( top->pos == 2) {
                 printf("azeitona %d\n",top->x);
                 top = pop(top);
             }
@@ -57,5 +57,47 @@ void f(int a, int b) {
     }
 }
 
+
+
+Frame* push(TreeNode* node, Frame* top) {
+    Frame* new_top = (Frame*)malloc(sizeof(Frame));
+    new_top->node = node;
+    new_top->pos = 0;
+    new_top->next = top;
+    return new_top;
+}
+
+Frame* pop(Frame* top) {
+    if (!top) return NULL;
+    Frame* new_top = top->next;
+    free(top);
+    return new_top;
+}
+
+int soma_total_iterativa(TreeNode* root) {
+    Frame* top = push(root, NULL);
+    int soma = 0;
+    while (top) {
+        TreeNode* node = top->node;
+        if (node == NULL) {
+            top = pop(top);
+        }
+        else {
+            if (top->pos == 0) {
+                soma += node->data;
+                top->pos++;
+                top = push(node->left, top);
+            }
+            else if (top->pos == 1) {
+                top->pos++;
+                top = push(node->right, top);
+            }
+            else if (top->pos == 2) {
+                top = pop(top);
+            }
+        }
+    }
+    return soma;
+}
 
 
