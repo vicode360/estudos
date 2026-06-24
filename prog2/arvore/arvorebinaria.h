@@ -84,5 +84,11 @@ int soma_total(TreeNode* root) {
     return root->data + soma_total(root->left) + soma_total(root->right);
 }
 
+int count_nodes(TreeNode* root) {
+    if (root == NULL)
+        return 0;
+    return 1 + count_nodes(root->left) + count_nodes(root->left)\
+}
+
 
 #endif //ESTUDOS_ARVOREBINARIA_H
