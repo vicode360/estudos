@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "arvbin.h"
 
 int main() {
@@ -45,6 +43,19 @@ int main() {
                 }else {
                     printf("%d nao existe na arvore\n", x);
                 }
+                break;
+            case 4:
+                clear();
+                x = count_tree(A);
+                printf("Sua arvore tem %d elementos\n", x);
+                break;
+            case 5:
+                clear();
+                print_leaf_nodes(A);
+                printf("\n");
+                break;
+            case 6:
+                loop = 1;
                 break;
             default:
                 break;

@@ -74,6 +74,24 @@ int verifyx(TreeNode* arq, int x) {
 }
 
 
+int count_tree(TreeNode* arq) {
+    if (arq == NULL) {
+        return 0;
+    }
+    return 1 + count_tree(arq->left) + count_tree(arq->right);
+}
+
+void print_leaf_nodes(TreeNode* arq) {
+    if (arq == NULL) {
+        return;
+    }
+    if (arq->left && arq->right == NULL) {
+        printf("%d ", arq->data);
+    }
+    print_leaf_nodes(arq->left);
+    print_leaf_nodes(arq->right);
+}
+
 void menu() {
     printf("|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|\n");
     printf("| 1- Ler uma arvore de um arquivo   |\n");
