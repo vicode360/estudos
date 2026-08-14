@@ -42,7 +42,6 @@ void pre_order(TreeNode* arq) {
         printf("%d\n", arq->data);
         pre_order(arq->left);
         pre_order(arq->right);
-        printf("\n");
     }
 }
 void in_order(TreeNode* arq) {
@@ -50,7 +49,6 @@ void in_order(TreeNode* arq) {
         in_order(arq->left);
         printf("%d\n", arq->data);
         in_order(arq->right);
-        printf("\n");
     }
 }
 
@@ -59,7 +57,6 @@ void post_order(TreeNode* arq) {
         post_order(arq->left);
         post_order(arq->right);
         printf("%d\n", arq->data);
-        printf("\n");
     }
 }
 
@@ -85,7 +82,7 @@ void print_leaf_nodes(TreeNode* arq) {
     if (arq == NULL) {
         return;
     }
-    if (arq->left && arq->right == NULL) {
+    if (arq->left == NULL && arq->right == NULL) {
         printf("%d ", arq->data);
     }
     print_leaf_nodes(arq->left);
