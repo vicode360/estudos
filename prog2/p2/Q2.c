@@ -28,3 +28,46 @@ typedef struct Node {
     int frequency;
     struct Node* next;
 } Node;
+
+typedef struct TreeNode {
+    int value;
+    int frequency;
+    struct TreeNode* left;
+    struct TreeNode* right;
+} TreeNode;
+
+
+int get_node_priority(void* x) {
+    TreeNode* node = *(TreeNode**)x;
+    return node->frequency;
+}
+
+void free_tree(TreeNode* T) {
+    if (T==NULL) return;
+    free_tree(T->left);
+    free_tree(T->right);
+    free(T);
+}
+
+TreeNode* huffman_tree(Node* L) {
+    if (L == NULL) return NULL;
+
+    PriorityQueue* F = INIT_P_QUEUE(TreeNode*, get_node_priority);
+    Node* current = L;
+    while (current!=NULL) {
+        TreeNode* t_node = malloc(sizeof(Treenode));
+        t_node->value = current->value;
+        t_node->frequency = current->frequency;
+        t_node->left = NULL;
+        t_node->right = NULL;
+
+        enqueue_p(F, &t_node);
+        current = current->next;
+    }
+}
+
+
+
+
+
+
