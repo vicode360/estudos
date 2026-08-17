@@ -89,6 +89,15 @@ void print_leaf_nodes(TreeNode* arq) {
     print_leaf_nodes(arq->right);
 }
 
+void free_tree(TreeNode* arq) {
+    if (arq != NULL) {
+        free_tree(arq->left);
+        free_tree(arq->right);
+        free(arq);
+    }
+}
+
+
 void menu() {
     printf("|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|\n");
     printf("| 1- Ler uma arvore de um arquivo   |\n");

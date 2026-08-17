@@ -3,8 +3,7 @@
 int main() {
     int x, esc2;
     TreeNode* A;
-    FILE* arq;
-    arq = fopen ("arq.txt", "rt");
+    FILE* arq = fopen ("arq.txt", "rt");
     int loop = 0;
     int esc;
     do {
@@ -55,6 +54,7 @@ int main() {
                 printf("\n");
                 break;
             case 6:
+                free_tree(A);
                 loop = 1;
                 break;
             default:
