@@ -1,18 +1,18 @@
 #include "arvbin.h"
 
 int main() {
-    int x, esc2;
+    int x, esc, esc2;
     TreeNode* A;
-    FILE* arq = fopen ("arq.txt", "rt");
+    FILE* fptr;
+    fptr = fopen("arq.txt", "r");
     int loop = 0;
-    int esc;
     do {
         menu();
         scanf("%d", &esc);
         switch (esc) {
             case 1:
                 clear();
-                A = LerArvore(arq);
+                A = LerArvore(fptr);
                 break;
             case 2:
                 clear();
@@ -53,7 +53,14 @@ int main() {
                 print_leaf_nodes(A);
                 printf("\n");
                 break;
-            case 6:
+            case 8:
+                clear();
+                printf("escolha um valor para x: ");
+                clear();
+                scanf("%d ", &x);
+                print_level_x(A, x);
+                printf("\n");
+            case 9:
                 free_tree(A);
                 loop = 1;
                 break;
