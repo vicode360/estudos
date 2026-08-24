@@ -31,6 +31,11 @@ int main() {
                         clear();
                         post_order(A);
                         break;
+                    case 4:
+                        clear();
+                        level_order(A);
+                        printf("\n");
+                        break;
                 }
                 break;
             case 3:
@@ -53,13 +58,33 @@ int main() {
                 print_leaf_nodes(A);
                 printf("\n");
                 break;
+            case 6:
+                clear();
+                if (is_ordered(A)) {
+                    printf("A arvore esta ordenada\n");
+                } else {
+                    printf("A arvore nao esta ordenada\n");
+                }
+                break;
+            case 7:
+                clear();
+                if (is_complete_tree(A)) {
+                    printf("A arvore esta completa\n");
+                } else {
+                    printf("A arvore nao esta completa\n");
+                }
+                break;
             case 8:
                 clear();
                 printf("escolha um valor para x: ");
-                clear();
-                scanf("%d ", &x);
-                print_level_x(A, x);
-                printf("\n");
+                scanf("%d", &x);
+                int level = print_level_x(A, x);
+                if (level == -1) {
+                    printf("%d nao existe na arvore\n", x);
+                } else {
+                    printf("%d esta no nivel %d\n", x, level);
+                }
+                break;
             case 9:
                 free_tree(A);
                 loop = 1;

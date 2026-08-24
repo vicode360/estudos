@@ -1,6 +1,5 @@
-#ifndef ESTUDOS_ARVBIN_H
-#define ESTUDOS_ARVBIN_H
 #include <stdbool.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,6 +8,54 @@ typedef struct TreeNode {
     struct TreeNode* left;
     struct TreeNode* right;
 } TreeNode;
+
+typedef struct QueueNode {
+    TreeNode* treeNode;
+    struct QueueNode* next;
+} QueueNode;
+
+typedef struct Queue {
+    QueueNode* front;
+    QueueNode* rear;
+} Queue;
+
+Queue* createQueue(){
+    Queue* q = malloc(sizeof(Queue));
+    q->front = NULL;
+    q->rear = NULL;
+    return q;
+}
+
+bool emptyQueue(Queue* q){
+    return q->front == NULL;
+}
+
+void enqueue(Queue* q, TreeNode* node){
+    QueueNode* newNode = malloc(sizeof(QueueNode));
+    newNode->treeNode = node;
+    newNode->next = NULL;
+
+    if(emptyQueue(q)) {
+        q->front = newNode;
+        q->rear = newNode;
+    }else{
+        q->rear->next = newNode;
+        q->rear = newNode;
+    }
+}
+
+TreeNode* dequeue(Queue* q){
+    if (emptyQueue(q)) return NULL;
+    QueueNode* temp = q->front;
+    TreeNode* treeNode = temp->treeNode;
+    q->front = q->front->next;
+
+    if(q->front == NULL){
+        q->rear = NULL;
+    }
+    free(temp);
+    return treeNode;
+}
 
 void clear() {
     #if defined(_WIN32) || defined(_WIN64)
@@ -121,6 +168,28 @@ int count_tree_level(TreeNode* arq, int count, int l) {
 //verificar se a arvore e completa
 //imprimir o nivel a qual o no x pertence
 
+void level_order(TreeNode* root){
+    if (root == NULL) {
+        return;
+    }
+    Queue* q = createQueue();
+    enqueue(q, root);
+
+    while(!emptyQueue(q)){
+        TreeNode* current = dequeue(q);
+        printf("%d ", current->data);
+        if(current->left != NULL){
+            enqueue(q, current->left);
+        }
+        if(current->right != NULL){
+            enqueue(q, current->right);
+        }
+    }
+
+    free(q);
+}
+
+
 int height(TreeNode* root) {
     if (root == NULL) {
         return 0;
@@ -133,7 +202,52 @@ int height(TreeNode* root) {
     return rh + 1;
 }
 
-bool is_ordered(TreeNode* root);
+bool is_ordered_recursive(TreeNode* root, long long min_value, long long max_value) {
+    if (root == NULL) {
+        return true;
+    }
+
+    if ((long long)root->data < min_value || (long long)root->data > max_value) {
+        return false;
+    }
+
+    return is_ordered_recursive(root->left, min_value, (long long)root->data - 1) &&
+           is_ordered_recursive(root->right, (long long)root->data + 1, max_value);
+}
+
+bool is_ordered(TreeNode* root) {
+    return is_ordered_recursive(root, LLONG_MIN, LLONG_MAX);
+}
+
+bool is_complete_tree(TreeNode* root) {
+    if (root == NULL) {
+        return true;
+    }
+
+    Queue* q = createQueue();
+    enqueue(q, root);
+    bool found_null = false;
+
+    while (!emptyQueue(q)) {
+        TreeNode* current = dequeue(q);
+
+        if (current == NULL) {
+            found_null = true;
+            continue;
+        }
+
+        if (found_null) {
+            free(q);
+            return false;
+        }
+
+        enqueue(q, current->left);
+        enqueue(q, current->right);
+    }
+
+    free(q);
+    return true;
+}
 
 int print_level_x(TreeNode* root, int x) {
     if (root == NULL) {
@@ -142,15 +256,25 @@ int print_level_x(TreeNode* root, int x) {
     if (root->data == x) {
         return 0;
     }
+
     int left_level = print_level_x(root->left, x);
     if (left_level != -1) {
         return left_level + 1;
     }
+
     int right_level = print_level_x(root->right, x);
-    if (right_level != 1) {
+    if (right_level != -1) {
         return right_level + 1;
     }
+
     return -1;
+}
+
+bool verifygap(TreeNode* root, int current, int total){
+    if (root == NULL) return true;
+    if (current >= total) return false;
+    return verifygap(root->left, 2 * current + 1, total) &&
+    verifygap(root->right, 2 * current, total);
 }
 
 
@@ -187,7 +311,3 @@ void menu2() {
     printf("|_________________|\n");
     printf("-> ");
 }
-
-
-
-#endif //ESTUDOS_ARVBIN_H
