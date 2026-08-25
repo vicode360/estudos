@@ -18,7 +18,7 @@ int main() {
                 clear();
                 menu2();
                 scanf("%d", &esc2);
-                switch (esc2) {
+                switch (esc2) { 
                     case 1:
                         clear();
                         pre_order(A);

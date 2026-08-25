@@ -286,6 +286,36 @@ void free_tree(TreeNode* arq) {
     }
 }
 
+void print_between_x_y(TreeNode* root, int x, int y) {
+    if (root != NULL) {
+        if(root->data < x){
+            print_between_x_y(root->right, x, y);
+
+        }
+        else if(root->data > y){
+            print_between_x_y(root->left, x, y);
+        }
+        else if(root->data == y){
+            printf("%d ", root->data);
+            print_between_x_y(root->left, x, y);
+        }
+        else{
+            printf("%d ", root->data),
+            print_between_x_y(root->left, x, y);
+            print_between_x_y(root->right, x, y);
+        }
+    }
+}
+
+void print_outside_x_y(TreeNode* root, int x, int y){
+    if (root != NULL){
+        if (root->data < x || root->data > y){
+            printf("%d ", root->data);
+        }
+        print_outside_x_y(root->left, x, y);
+        print_outside_x_y(root->right, x, y);
+    }   
+}
 
 void menu() {
     printf("|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|\n");
