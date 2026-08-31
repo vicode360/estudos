@@ -6,28 +6,28 @@
 # }
 # return fib(n-1) + fib(n-2);
 
-fib: 
-  addi $sp, $sp, -8   # cria um espaco de 8 bits na memoria
-  sw $ra, 8($sp)      # guarda o endereco da main na pilha
-  sw $a0, 4($sp)      # guarda o endereco de n na pilha
+fib:
+  addi $sp, $sp, -8     # cria um espaco de 8 bits na memoria
+  sw $ra, 8($sp)        # guarda o endereco da main na pilha
+  sw $a0, 4($sp)        # guarda o endereco de n na pilha
 
-  slti $t0, $a0, 2
-  beq  $t0, $zero, Else
-  add  $v0, $a0, $zero
+  slti $t0, $a0, 2      # compara n com 2 (tipo bool) e seta $t0 com 1 ou 0
+  beq  $t0, $zero, Else # se n >= 2, vai para Else
+  add  $v0, $a0, $zero  # se n < 2, retorna n em v0
 
-  jr $ra
-  
-  Else: 
-  addi $a0, $a0, -1
-  
-  jal fib
-  add $t1, $v0, $zero
-  addi $a0, $a0, -1
+  jr $ra                # volta pra main (ou recursivamente para a funcao fib)
 
-  jal fib
-  add $v0, $t1, $v0
-  lw $a0, 4($sp)
-  lw $ra, 8($sp)
-  addi $sp, $sp, 8
+  Else:
+  addi $a0, $a0, -1     # adiciona -1 a n (fib(n-1))
 
-  jr $ra
+  jal fib               # chama a funcao fib(n-1) recursivamente
+  add $t1, $v0, $zero   # guarda o resultado de fib(n-1) em $t1
+  addi $a0, $a0, -1     # adiciona -1 a n (fib(n-2))
+
+  jal fib               # chama a funcao fib(n-2) recursivamente
+  add $v0, $t1, $v0     # soma os resultados de fib(n-1) e fib(n-2)
+  lw $a0, 4($sp)        # recupera o valor de n da pilha
+  lw $ra, 8($sp)        # recupera o endereco da main da pilha
+  addi $sp, $sp, 8      # libera o espaco de 8 bits na memoria
+
+  jr $ra                # volta pra main
