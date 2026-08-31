@@ -1,0 +1,33 @@
+
+# in c:
+# int fib(int n){
+# if (n <= 1) {
+#   return n;
+# }
+# return fib(n-1) + fib(n-2);
+
+fib: 
+  addi $sp, $sp, -8   # cria um espaco de 8 bits na memoria
+  sw $ra, 8($sp)      # guarda o endereco da main na pilha
+  sw $a0, 4($sp)      # guarda o endereco de n na pilha
+
+  slti $t0, $a0, 2
+  beq  $t0, $zero, Else
+  add  $v0, $a0, $zero
+
+  jr $ra
+  
+  Else: 
+  addi $a0, $a0, -1
+  
+  jal fib
+  add $t1, $v0, $zero
+  addi $a0, $a0, -1
+
+  jal fib
+  add $v0, $t1, $v0
+  lw $a0, 4($sp)
+  lw $ra, 8($sp)
+  addi $sp, $sp, 8
+
+  jr $ra
