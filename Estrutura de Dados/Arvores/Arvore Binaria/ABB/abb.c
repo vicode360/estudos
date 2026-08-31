@@ -1,18 +1,27 @@
-#include "arvbin.h"
+#include "abb.h"
 
-int main() {
-  int x, esc, esc2;
-  TreeNode *A;
+
+
+//
+//  Sao arvores binarias
+//  Sao ordenadas
+//
+
+
+
+int main(){
+  int esc, x, esc2;
+  TreeNode *A = NULL;
   FILE *fptr;
   fptr = fopen("arq.txt", "r");
   int loop = 0;
   do {
     menu();
     scanf("%d", &esc);
-    switch (esc) {
-    case 1:
+    switch(esc){
+      case 1:
       clear();
-      A = LerArvore(fptr);
+      A = read_tree(fptr);
       break;
     case 2:
       clear();
@@ -33,7 +42,7 @@ int main() {
         break;
       case 4:
         clear();
-        level_order(A);
+        emLarguraRecursivo(A);
         printf("\n");
         break;
       }
@@ -50,47 +59,43 @@ int main() {
       break;
     case 4:
       clear();
-      x = count_tree(A);
-      printf("Sua arvore tem %d elementos\n", x);
-      break;
-    case 5:
-      clear();
-      print_leaf_nodes(A);
-      printf("\n");
-      break;
-    case 6:
-      clear();
-      if (is_ordered(A)) {
-        printf("A arvore esta ordenada\n");
-      } else {
-        printf("A arvore nao esta ordenada\n");
-      }
-      break;
-    case 7:
-      clear();
-      if (is_complete_tree(A)) {
-        printf("A arvore esta completa\n");
-      } else {
-        printf("A arvore nao esta completa\n");
-      }
-      break;
-    case 8:
-      clear();
       printf("escolha um valor para x: ");
       scanf("%d", &x);
-      int level = print_level_x(A, x);
+      int level = print_level_is_x(A, x);
       if (level == -1) {
         printf("%d nao existe na arvore\n", x);
       } else {
         printf("%d esta no nivel %d\n", x, level);
       }
       break;
-    case 9:
+    case 5:
+      clear();
+      printf("Digite o valor de X: ");
+      scanf("%d", &x);
+      print_small_x_leaf(A, x);
+      printf("\n");
+      break;
+    case 6:
+      clear();
+      printf("Digite o numero a inserir: ");
+      scanf("%d", &x);
+      A = insert(A, x);
+      break;
+    case 7:
+      clear();
+      printf("Digite o numero a remover: ");
+      scanf("%d", &x);
+      A = remove(A, x);
+      break;
+    case 8:
       free_tree(A);
       loop = 1;
       break;
     default:
       break;
     }
-  } while (loop == 0);
+}while(loop == 0);
+
+
+
 }
