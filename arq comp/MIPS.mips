@@ -31,3 +31,38 @@ fib:
   addi $sp, $sp, 8      # libera o espaco de 8 bits na memoria
 
   jr $ra                # volta pra main
+
+
+
+# potencia em c:
+#
+# int potencia (int a, int n){
+# if (n == 1){
+#   return 1;
+#   }
+# return a * potencia(a, n-1);
+# }
+
+# a1 = n / a0 = a
+
+
+pow:
+  addi $sp, $sp, 8
+  sw $ra, 0($sp)
+  sw $a1, 4($sp) # a1 = n
+  addi $t0, $zero, 1 # atribui 1 a $t0
+
+  bne $a1, $t0, Else # compara n com 1
+  addi $v0, $zero, 1   # caso seja igual, retorna 1
+
+  jr $ra
+
+Else:
+  
+  jal pow # chama recursivamente com n => n-1
+
+  mul $v0, $v0, $a0 # multiplica fib(n-1) por a atribuindo em v0
+  lw $a1, 4($sp) 
+  lw $ra, 0($sp)
+
+  jr $ra
