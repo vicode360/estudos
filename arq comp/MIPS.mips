@@ -37,7 +37,7 @@ fib:
 # potencia em c:
 #
 # int potencia (int a, int n){
-# if (n == 1){
+# if (n == 0){
 #   return 1;
 #   }
 # return a * potencia(a, n-1);
@@ -47,22 +47,120 @@ fib:
 
 
 pow:
-  addi $sp, $sp, 8
+  addi $sp, $sp, -8
   sw $ra, 0($sp)
   sw $a1, 4($sp) # a1 = n
   addi $t0, $zero, 1 # atribui 1 a $t0
 
-  bne $a1, $t0, Else # compara n com 1
-  addi $v0, $zero, 1   # caso seja igual, retorna 1
-
-  jr $ra
+  beq $a1, $zero, Base
 
 Else:
-  
+  addi $a1, $a1, -1 # n = n-1
   jal pow # chama recursivamente com n => n-1
 
-  mul $v0, $v0, $a0 # multiplica fib(n-1) por a atribuindo em v0
-  lw $a1, 4($sp) 
+  mul $v0, $vo, $a0
+  J Fim
+
+Base: 
+  addi $v0, $zero, 1
+
+Fim:
+  lw $a1, 4($sp)
   lw $ra, 0($sp)
+  addi $sp, $sp, 8
 
   jr $ra
+
+
+
+
+  # f = f + a[6];
+  # b[8] = a[i] + a[j];
+  # b[34] = a[3] + f - j;
+  # while (b[i] == k)
+  # i = i + j;
+  #
+  # f = $s0, i = $s1, j = $s2
+  # end. base.: a[] = $s5, b[] = $s6, k = $s7
+
+
+lw $t0, 24($s5) # a[6]
+
+sll $a1, $s1, 2
+add $t1, $a1, $s5
+lw $t2, 0($t1) # a[i]
+
+sll $t1, $s2, 2
+add $t1, $t1, $s5 
+lw $t3, 0($t1) # a[j]
+
+lw $t4, 32($s6) # b[8]
+
+lw $t5, 136($s6) # b[34]
+
+lw $t6, 12($s5) # a[3]
+
+add $s0, $s0, $t0
+
+add $t4, $t2, $t3
+sw $t4, 32($s6)
+
+add $t5, $t6, $s0
+sub $t5, $t5, $s2
+sw $t5, 136($s6)
+
+While:
+  sll $a1, $s1, 2 
+  add $t1, $a1, $s6
+  lw $t7, 0($t1) # b[i]
+
+  bne $t7, $s7, Fim_While
+  add $s1, $s1, $s2
+
+  J While
+
+Fim_While:
+
+
+
+
+
+# int is_sorted(int *v, int n) {  
+# for (int i = 0; i < n-1; i++) {
+#       if (v[i] > v[i+1]) return 0;
+#     }
+#   return 1;
+#}
+#
+# v[] = $s1 | i = $s2 | n = $s3
+
+addi $s2, $zero, 0
+addi $s4, $s3, -1 # n-1 = $s4
+
+
+For:
+  bge $s2, $s4, Fim_for
+
+  sll $a0, $s2, 2
+  add $t1, $a0, $s1
+  lw $t3, 0($t1)
+  lw $t4, 4($t1)
+
+  ble $t3, $t4, Else
+  addi $v0, $zero, 0
+  J Fim
+  
+Else:
+  addi $s2, $s2, 1
+  J For
+
+Fim_for:
+  addi $v0, $zero, 1
+  J Fim
+
+Fim:
+
+
+
+
+
